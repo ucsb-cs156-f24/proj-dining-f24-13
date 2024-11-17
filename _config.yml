@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f24/proj-dining-f24-13
 owner: ucsb-cs156-f24
 repo_name: proj-dining-f24-13
-pull_requests: [{"author":{"id":"U_kgDOBtxmGw","is_bot":false,"login":"st4lemon","name":""},"headRefName":"dq-ReviewBackendDatabase","number":23,"title":"dq-added reviews database table (entity, repository, migration)","url":"https://github.com/ucsb-cs156-f24/proj-dining-f24-13/pull/23"}]
+pull_requests: [{"author":{"id":"U_kgDOBtkPHg","is_bot":false,"login":"clevermonkey16","name":""},"headRefName":"sj-indexplaceholder","number":24,"title":"sj-create a placeholder page at the url /myreviews","url":"https://github.com/ucsb-cs156-f24/proj-dining-f24-13/pull/24"},{"author":{"id":"U_kgDOBtxmGw","is_bot":false,"login":"st4lemon","name":""},"headRefName":"dq-ReviewBackendDatabase","number":23,"title":"dq-added reviews database table (entity, repository, migration)","url":"https://github.com/ucsb-cs156-f24/proj-dining-f24-13/pull/23"}]
