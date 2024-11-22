@@ -78,8 +78,8 @@ import java.time.LocalDateTime;
             @Parameter(name=&quot;stars&quot;) @RequestParam long stars,
             @Parameter(name=&quot;reviewText&quot;) @RequestParam String reviewText,
             @Parameter(name=&quot;status&quot;) @RequestParam String status,
-            @Parameter(name=&quot;modId&quot;) @RequestParam long modId,
-            @Parameter(name=&quot;modComments&quot;) @RequestParam String modComments,
+            @Parameter(name=&quot;modId&quot;) @RequestParam(required=false) Long modId,
+            @Parameter(name=&quot;modComments&quot;) @RequestParam(required=false) String modComments,
             @Parameter(name=&quot;createdDate&quot;, description=&quot;date (in iso format, e.g. YYYY-mm-ddTHH:MM:SS&quot;) @RequestParam(&quot;createdDate&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime createdDate,
             @Parameter(name=&quot;lastEditedDate&quot;, description=&quot;date (in iso format, e.g. YYYY-mm-ddTHH:MM:SS&quot;) @RequestParam(&quot;lastEditedDate&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime lastEditedDate)
             throws JsonProcessingException {
