@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/11</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/11</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -147,29 +147,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -190,16 +188,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -212,72 +212,72 @@ import OurTable, { ButtonColumn } from "main/components/OurTable";
 &nbsp;
 import { useBackendMutation } from "main/utils/useBackend";
 import {
-    cellToAxiosParamsDelete,
-    onDeleteSuccess,
+  cellToAxiosParamsDelete,
+  onDeleteSuccess,
 } from "main/utils/DiningCommonsUtils";
 import { useNavigate } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
 &nbsp;
-export default function <span class="fstat-no" title="function not covered" >DiningCommonsTable(</span>{ diningcommons, currentUser }) {
-    const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
+export default function DiningCommonsTable({ diningcommons, currentUser }) {
+  const navigate = useNavigate();
 &nbsp;
-    const editCallback = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(c</span>ell) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        navigate(`/diningcommons/edit/${cell.row.values.id}`);</span>
-    };
+  const editCallback = (cell) =&gt; {
+    navigate(`/diningcommons/edit/${cell.row.values.id}`);
+  };
 &nbsp;
-    // Stryker disable all : hard to test for query caching
+  // Stryker disable all : hard to test for query caching
 &nbsp;
-    const deleteMutation = <span class="cstat-no" title="statement not covered" >useBackendMutation(</span>
-        cellToAxiosParamsDelete,
-        { onSuccess: onDeleteSuccess },
-        ["/api/diningcommons/all"],
+  const deleteMutation = useBackendMutation(
+    cellToAxiosParamsDelete,
+    { onSuccess: onDeleteSuccess },
+    ["/api/diningcommons/all"],
+  );
+  // Stryker restore all
+&nbsp;
+  // Stryker disable next-line all : TODO try to make a good test for this
+  const deleteCallback = async (cell) =&gt; {
+    deleteMutation.mutate(cell);
+  };
+&nbsp;
+  const columns = [
+    {
+      Header: "Name",
+      accessor: "name", // accessor is the "key" in the data
+    },
+    {
+      Header: "Code",
+      accessor: "code",
+    },
+    {
+      Header: "HasDiningCam",
+      accessor: "hasDiningCam",
+    },
+    {
+      Header: "HasSackMeal",
+      accessor: "hasSackMeal",
+    },
+    {
+      Header: "HasTakeoutMeal",
+      accessor: "hasTakeoutMeal",
+    },
+  ];
+&nbsp;
+  if (hasRole(currentUser, "ROLE_ADMIN")) {
+    columns.push(
+      ButtonColumn("Edit", "primary", editCallback, "DiningCommonsTable"),
     );
-    // Stryker restore all
-&nbsp;
-    // Stryker disable next-line all : TODO try to make a good test for this
-    const deleteCallback = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync (cell) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        deleteMutation.mutate(cell);</span>
-    };
-&nbsp;
-    const columns = <span class="cstat-no" title="statement not covered" >[</span>
-        {
-            Header: "Name",
-            accessor: "name", // accessor is the "key" in the data
-        },
-        {
-            Header: "Code",
-            accessor: "code",
-        },
-        {
-            Header: "HasDiningCam",
-            accessor: "hasDiningCam",
-        },
-        {
-            Header: "HasSackMeal",
-            accessor: "hasSackMeal",
-        },
-        {
-            Header: "HasTakeoutMeal",
-            accessor: "hasTakeoutMeal",
-        },
-    ];
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (hasRole(currentUser, "ROLE_ADMIN")) {</span>
-<span class="cstat-no" title="statement not covered" >        columns.push(</span>
-            ButtonColumn("Edit", "primary", editCallback, "DiningCommonsTable"),
-        );
-<span class="cstat-no" title="statement not covered" >        columns.push(</span>
-            ButtonColumn("Delete", "danger", deleteCallback, "DiningCommonsTable"),
-        );
-    }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
-        &lt;OurTable
-            data={diningcommons}
-            columns={columns}
-            testid={"DiningCommonsTable"}
-        /&gt;
+    columns.push(
+      ButtonColumn("Delete", "danger", deleteCallback, "DiningCommonsTable"),
     );
+  }
+&nbsp;
+  return (
+    &lt;OurTable
+      data={diningcommons}
+      columns={columns}
+      testid={"DiningCommonsTable"}
+    /&gt;
+  );
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -286,7 +286,7 @@ export default function <span class="fstat-no" title="function not covered" >Din
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-23T23:36:14.917Z
+                at 2024-11-24T05:16:49.193Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
