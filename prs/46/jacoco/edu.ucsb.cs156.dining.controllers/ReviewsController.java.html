@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 /**
  * This is a REST controller for Reviews
@@ -34,8 +36,8 @@ import java.time.LocalDateTime;
 @Tag(name = &quot;Reviews&quot;)
 @RequestMapping(&quot;/api/reviews&quot;)
 @RestController
-<span class="fc" id="L37">@Slf4j</span>
-<span class="fc" id="L38">public class ReviewsController extends ApiController {</span>
+<span class="fc" id="L39">@Slf4j</span>
+<span class="fc" id="L40">public class ReviewsController extends ApiController {</span>
 
     @Autowired
     ReviewRepository reviewsRepository;
@@ -49,8 +51,8 @@ import java.time.LocalDateTime;
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @GetMapping(&quot;/all&quot;)
     public Iterable&lt;Review&gt; allReviews() {
-<span class="fc" id="L52">        Iterable&lt;Review&gt; reviews = reviewsRepository.findAll();</span>
-<span class="fc" id="L53">        return reviews;</span>
+<span class="fc" id="L54">        Iterable&lt;Review&gt; reviews = reviewsRepository.findAll();</span>
+<span class="fc" id="L55">        return reviews;</span>
     }
 
     /**
@@ -61,11 +63,6 @@ import java.time.LocalDateTime;
      * @param dateServed        date item was served
      * @param stars             rating from 0-5 inclusive
      * @param reviewText        reviewer comments
-     * @param status            awaiting approval, approved, or rejected
-     * @param modId             user id of the moderator
-     * @param modComments       moderator comments about review
-     * @param createdDate       the date review was created
-     * @param lastEditedDate    the date review was last edited
      * @return the saved review
      */
     @Operation(summary= &quot;Create a new review&quot;)
@@ -76,34 +73,29 @@ import java.time.LocalDateTime;
             @Parameter(name=&quot;itemId&quot;) @RequestParam long itemId,
             @Parameter(name=&quot;dateServed&quot;, description=&quot;date (in iso format, e.g. YYYY-mm-ddTHH:MM:SS&quot;) @RequestParam(&quot;dateServed&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateServed,
             @Parameter(name=&quot;stars&quot;) @RequestParam long stars,
-            @Parameter(name=&quot;reviewText&quot;) @RequestParam String reviewText,
-            @Parameter(name=&quot;status&quot;) @RequestParam String status,
-            @Parameter(name=&quot;modId&quot;) @RequestParam(required=false) Long modId,
-            @Parameter(name=&quot;modComments&quot;) @RequestParam(required=false) String modComments,
-            @Parameter(name=&quot;createdDate&quot;, description=&quot;date (in iso format, e.g. YYYY-mm-ddTHH:MM:SS&quot;) @RequestParam(&quot;createdDate&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime createdDate,
-            @Parameter(name=&quot;lastEditedDate&quot;, description=&quot;date (in iso format, e.g. YYYY-mm-ddTHH:MM:SS&quot;) @RequestParam(&quot;lastEditedDate&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime lastEditedDate)
+            @Parameter(name=&quot;reviewText&quot;) @RequestParam String reviewText)
             throws JsonProcessingException {
 
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         // See: https://www.baeldung.com/spring-date-parameters
 
-<span class="fc" id="L90">        log.info(&quot;createdDate={}&quot;, createdDate);</span>
+<span class="fc" id="L82">        LocalDateTime createdDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);</span>
 
-<span class="fc" id="L92">        Review reviews = new Review();</span>
-<span class="fc" id="L93">        reviews.setReviewerId(reviewerId);</span>
-<span class="fc" id="L94">        reviews.setItemId(itemId);</span>
-<span class="fc" id="L95">        reviews.setDateServed(dateServed);</span>
-<span class="fc" id="L96">        reviews.setStars(stars);</span>
-<span class="fc" id="L97">        reviews.setReviewText(reviewText);</span>
-<span class="fc" id="L98">        reviews.setStatus(status);</span>
-<span class="fc" id="L99">        reviews.setModId(modId);</span>
-<span class="fc" id="L100">        reviews.setModComments(modComments);</span>
-<span class="fc" id="L101">        reviews.setCreatedDate(createdDate);</span>
-<span class="fc" id="L102">        reviews.setLastEditedDate(lastEditedDate);</span>
+<span class="fc" id="L84">        log.info(&quot;createdDate={}&quot;, createdDate.format(DateTimeFormatter.ISO_DATE_TIME));</span>
 
-<span class="fc" id="L104">        Review savedReview = reviewsRepository.save(reviews);</span>
+<span class="fc" id="L86">        Review reviews = new Review();</span>
+<span class="fc" id="L87">        reviews.setReviewerId(reviewerId);</span>
+<span class="fc" id="L88">        reviews.setItemId(itemId);</span>
+<span class="fc" id="L89">        reviews.setDateServed(dateServed);</span>
+<span class="fc" id="L90">        reviews.setStars(stars);</span>
+<span class="fc" id="L91">        reviews.setReviewText(reviewText);</span>
+<span class="fc" id="L92">        reviews.setStatus(&quot;Awaiting Moderation&quot;);</span>
+<span class="fc" id="L93">        reviews.setCreatedDate(createdDate);</span>
+<span class="fc" id="L94">        reviews.setLastEditedDate(createdDate);</span>
 
-<span class="fc" id="L106">        return savedReview;</span>
+<span class="fc" id="L96">        Review savedReview = reviewsRepository.save(reviews);</span>
+
+<span class="fc" id="L98">        return savedReview;</span>
     }
 
 }
