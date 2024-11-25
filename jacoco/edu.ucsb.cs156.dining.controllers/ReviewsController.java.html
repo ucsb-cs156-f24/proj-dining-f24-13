@@ -56,6 +56,20 @@ import java.time.temporal.ChronoUnit;
     }
 
     /**
+     * List all reviews created by a specific user
+     * 
+     * @return an iterable of Review
+     */
+    @Operation(summary= &quot;List all reviews created by a specific user&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @GetMapping(&quot;&quot;)
+    public Iterable&lt;Review&gt; getReviewsByUser(
+        @Parameter(name=&quot;userId&quot;) @RequestParam long userId) {
+<span class="fc" id="L68">        Iterable&lt;Review&gt; reviews = reviewsRepository.findAllByReviewerId(userId);</span>
+<span class="fc" id="L69">        return reviews;</span>
+    }
+
+    /**
      * Create a new review
      * 
      * @param itemId            id of item in DiningCommonsMenuItem table
@@ -77,23 +91,23 @@ import java.time.temporal.ChronoUnit;
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         // See: https://www.baeldung.com/spring-date-parameters
 
-<span class="fc" id="L80">        LocalDateTime createdDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);</span>
+<span class="fc" id="L94">        LocalDateTime createdDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);</span>
 
-<span class="fc" id="L82">        log.info(&quot;createdDate={}&quot;, createdDate.format(DateTimeFormatter.ISO_DATE_TIME));</span>
+<span class="fc" id="L96">        log.info(&quot;createdDate={}&quot;, createdDate.format(DateTimeFormatter.ISO_DATE_TIME));</span>
 
-<span class="fc" id="L84">        Review reviews = new Review();</span>
-<span class="fc" id="L85">        reviews.setReviewerId(getCurrentUser().getUser().getId());</span>
-<span class="fc" id="L86">        reviews.setItemId(itemId);</span>
-<span class="fc" id="L87">        reviews.setDateServed(dateServed);</span>
-<span class="fc" id="L88">        reviews.setStars(stars);</span>
-<span class="fc" id="L89">        reviews.setReviewText(reviewText);</span>
-<span class="fc" id="L90">        reviews.setStatus(&quot;Awaiting Moderation&quot;);</span>
-<span class="fc" id="L91">        reviews.setCreatedDate(createdDate);</span>
-<span class="fc" id="L92">        reviews.setLastEditedDate(createdDate);</span>
+<span class="fc" id="L98">        Review reviews = new Review();</span>
+<span class="fc" id="L99">        reviews.setReviewerId(getCurrentUser().getUser().getId());</span>
+<span class="fc" id="L100">        reviews.setItemId(itemId);</span>
+<span class="fc" id="L101">        reviews.setDateServed(dateServed);</span>
+<span class="fc" id="L102">        reviews.setStars(stars);</span>
+<span class="fc" id="L103">        reviews.setReviewText(reviewText);</span>
+<span class="fc" id="L104">        reviews.setStatus(&quot;Awaiting Moderation&quot;);</span>
+<span class="fc" id="L105">        reviews.setCreatedDate(createdDate);</span>
+<span class="fc" id="L106">        reviews.setLastEditedDate(createdDate);</span>
 
-<span class="fc" id="L94">        Review savedReview = reviewsRepository.save(reviews);</span>
+<span class="fc" id="L108">        Review savedReview = reviewsRepository.save(reviews);</span>
 
-<span class="fc" id="L96">        return savedReview;</span>
+<span class="fc" id="L110">        return savedReview;</span>
     }
 
 }
