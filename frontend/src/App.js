@@ -15,7 +15,7 @@ import PlaceholderIndexPage from "main/pages/Placeholder/PlaceholderIndexPage";
 import PlaceholderCreatePage from "main/pages/Placeholder/PlaceholderCreatePage";
 import PlaceholderEditPage from "main/pages/Placeholder/PlaceholderEditPage";
 
-import DiningCommonsPage from "main/pages/DiningCommons/DiningCommonsPage";
+import DiningCommonsIndexPage from "main/pages/DiningCommons/DiningCommonsIndexPage";
 
 import MyReviewsIndexPage from "main/pages/MyReviews/MyReviewsIndexPage";
 
@@ -108,8 +108,8 @@ function App() {
           <>
             <Route
               exact
-              path="/diningcommons/:diningCommonsCode"
-              element={<DiningCommonsPage />}
+              path="/diningcommons"
+              element={<DiningCommonsIndexPage />}
             />
           </>
         )}
