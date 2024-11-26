@@ -22,12 +22,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import org.springframework.http.HttpStatus;
 
 import jakarta.validation.Valid;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+
+import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * This is a REST controller for Reviews
@@ -36,11 +43,18 @@ import java.time.temporal.ChronoUnit;
 @Tag(name = &quot;Reviews&quot;)
 @RequestMapping(&quot;/api/reviews&quot;)
 @RestController
-<span class="fc" id="L39">@Slf4j</span>
-<span class="fc" id="L40">public class ReviewsController extends ApiController {</span>
+<span class="fc" id="L46">@Slf4j</span>
+<span class="fc" id="L47">public class ReviewsController extends ApiController {</span>
 
     @Autowired
     ReviewRepository reviewsRepository;
+
+    
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public void handleIllegalArgumentException() {
+
+<span class="fc" id="L57">    }</span>
 
     /**
      * List all reviews
@@ -51,8 +65,8 @@ import java.time.temporal.ChronoUnit;
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @GetMapping(&quot;/all&quot;)
     public Iterable&lt;Review&gt; allReviews() {
-<span class="fc" id="L54">        Iterable&lt;Review&gt; reviews = reviewsRepository.findAll();</span>
-<span class="fc" id="L55">        return reviews;</span>
+<span class="fc" id="L68">        Iterable&lt;Review&gt; reviews = reviewsRepository.findAll();</span>
+<span class="fc" id="L69">        return reviews;</span>
     }
 
     /**
@@ -65,8 +79,8 @@ import java.time.temporal.ChronoUnit;
     @GetMapping(&quot;&quot;)
     public Iterable&lt;Review&gt; getReviewsByUser(
         @Parameter(name=&quot;userId&quot;) @RequestParam long userId) {
-<span class="fc" id="L68">        Iterable&lt;Review&gt; reviews = reviewsRepository.findAllByReviewerId(userId);</span>
-<span class="fc" id="L69">        return reviews;</span>
+<span class="fc" id="L82">        Iterable&lt;Review&gt; reviews = reviewsRepository.findAllByReviewerId(userId);</span>
+<span class="fc" id="L83">        return reviews;</span>
     }
 
     /**
@@ -78,8 +92,8 @@ import java.time.temporal.ChronoUnit;
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @GetMapping(&quot;/needsmoderation&quot;)
     public Iterable&lt;Review&gt; getReviewsNeedingModeration() {
-<span class="fc" id="L81">        Iterable&lt;Review&gt; reviews = reviewsRepository.findAllByStatus(&quot;Awaiting Moderation&quot;);</span>
-<span class="fc" id="L82">        return reviews;</span>
+<span class="fc" id="L95">        Iterable&lt;Review&gt; reviews = reviewsRepository.findAllByStatus(&quot;Awaiting Moderation&quot;);</span>
+<span class="fc" id="L96">        return reviews;</span>
     }
 
     /**
@@ -104,23 +118,23 @@ import java.time.temporal.ChronoUnit;
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         // See: https://www.baeldung.com/spring-date-parameters
 
-<span class="fc" id="L107">        LocalDateTime createdDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);</span>
+<span class="fc" id="L121">        LocalDateTime createdDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);</span>
 
-<span class="fc" id="L109">        log.info(&quot;createdDate={}&quot;, createdDate.format(DateTimeFormatter.ISO_DATE_TIME));</span>
+<span class="fc" id="L123">        log.info(&quot;createdDate={}&quot;, createdDate.format(DateTimeFormatter.ISO_DATE_TIME));</span>
 
-<span class="fc" id="L111">        Review reviews = new Review();</span>
-<span class="fc" id="L112">        reviews.setReviewerId(getCurrentUser().getUser().getId());</span>
-<span class="fc" id="L113">        reviews.setItemId(itemId);</span>
-<span class="fc" id="L114">        reviews.setDateServed(dateServed);</span>
-<span class="fc" id="L115">        reviews.setStars(stars);</span>
-<span class="fc" id="L116">        reviews.setReviewText(reviewText);</span>
-<span class="fc" id="L117">        reviews.setStatus(&quot;Awaiting Moderation&quot;);</span>
-<span class="fc" id="L118">        reviews.setCreatedDate(createdDate);</span>
-<span class="fc" id="L119">        reviews.setLastEditedDate(createdDate);</span>
+<span class="fc" id="L125">        Review reviews = new Review();</span>
+<span class="fc" id="L126">        reviews.setReviewerId(getCurrentUser().getUser().getId());</span>
+<span class="fc" id="L127">        reviews.setItemId(itemId);</span>
+<span class="fc" id="L128">        reviews.setDateServed(dateServed);</span>
+<span class="fc" id="L129">        reviews.setStars(stars);</span>
+<span class="fc" id="L130">        reviews.setReviewText(reviewText);</span>
+<span class="fc" id="L131">        reviews.setStatus(&quot;Awaiting Moderation&quot;);</span>
+<span class="fc" id="L132">        reviews.setCreatedDate(createdDate);</span>
+<span class="fc" id="L133">        reviews.setLastEditedDate(createdDate);</span>
 
-<span class="fc" id="L121">        Review savedReview = reviewsRepository.save(reviews);</span>
+<span class="fc" id="L135">        Review savedReview = reviewsRepository.save(reviews);</span>
 
-<span class="fc" id="L123">        return savedReview;</span>
+<span class="fc" id="L137">        return savedReview;</span>
     }
     
     /**
@@ -137,19 +151,19 @@ import java.time.temporal.ChronoUnit;
             @Parameter(name=&quot;id&quot;) @RequestParam Long id,
             @RequestBody @Valid Review incoming) {
             
-<span class="fc" id="L140">        Review review = reviewsRepository.findById(id)</span>
-<span class="fc" id="L141">                .orElseThrow(() -&gt; new EntityNotFoundException(Review.class, id));</span>
+<span class="fc" id="L154">        Review review = reviewsRepository.findById(id)</span>
+<span class="fc" id="L155">                .orElseThrow(() -&gt; new EntityNotFoundException(Review.class, id));</span>
 
-<span class="fc" id="L143">        review.setStars(incoming.getStars());</span>
-<span class="fc" id="L144">        review.setReviewText(incoming.getReviewText());</span>
-<span class="fc" id="L145">        review.setStatus(&quot;Awaiting Moderation&quot;);</span>
-<span class="fc" id="L146">        review.setModId(null);</span>
-<span class="fc" id="L147">        review.setModComments(null);</span>
-<span class="fc" id="L148">        review.setLastEditedDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));</span>
+<span class="fc" id="L157">        review.setStars(incoming.getStars());</span>
+<span class="fc" id="L158">        review.setReviewText(incoming.getReviewText());</span>
+<span class="fc" id="L159">        review.setStatus(&quot;Awaiting Moderation&quot;);</span>
+<span class="fc" id="L160">        review.setModId(null);</span>
+<span class="fc" id="L161">        review.setModComments(null);</span>
+<span class="fc" id="L162">        review.setLastEditedDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));</span>
 
-<span class="fc" id="L150">        reviewsRepository.save(review);</span>
+<span class="fc" id="L164">        reviewsRepository.save(review);</span>
 
-<span class="fc" id="L152">        return review;</span>
+<span class="fc" id="L166">        return review;</span>
     }
 
     /**
@@ -167,17 +181,21 @@ import java.time.temporal.ChronoUnit;
             @RequestBody @Valid Review incoming) {
 
 
-<span class="fc" id="L170">        Review review = reviewsRepository.findById(id)</span>
-<span class="fc" id="L171">                .orElseThrow(() -&gt; new EntityNotFoundException(Review.class, id));</span>
+<span class="fc" id="L184">        Review review = reviewsRepository.findById(id)</span>
+<span class="fc" id="L185">                .orElseThrow(() -&gt; new EntityNotFoundException(Review.class, id));</span>
+        
+<span class="fc bfc" id="L187" title="All 2 branches covered.">        if( !incoming.getStatus().matches(&quot;Approved|Awaiting Approval|Rejected&quot;) ) {</span>
+<span class="fc" id="L188">            throw new IllegalArgumentException(&quot;Status must be 'Awaiting Moderation', 'Approved', or 'Rejected'&quot;);</span>
+        } 
 
-<span class="fc" id="L173">        review.setStatus(incoming.getStatus());</span>
-<span class="fc" id="L174">        review.setModComments(incoming.getModComments());</span>
-<span class="fc" id="L175">        review.setModId(getCurrentUser().getUser().getId());</span>
-<span class="fc" id="L176">        review.setLastEditedDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));</span>
+<span class="fc" id="L191">        review.setStatus(incoming.getStatus());</span>
+<span class="fc" id="L192">        review.setModComments(incoming.getModComments());</span>
+<span class="fc" id="L193">        review.setModId(getCurrentUser().getUser().getId());</span>
+<span class="fc" id="L194">        review.setLastEditedDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));</span>
 
-<span class="fc" id="L178">        reviewsRepository.save(review);</span>
+<span class="fc" id="L196">        reviewsRepository.save(review);</span>
 
-<span class="fc" id="L180">        return review;</span>
+<span class="fc" id="L198">        return review;</span>
     }
 
 }
