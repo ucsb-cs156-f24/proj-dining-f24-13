@@ -184,18 +184,20 @@ import java.util.ArrayList;
 <span class="fc" id="L184">        Review review = reviewsRepository.findById(id)</span>
 <span class="fc" id="L185">                .orElseThrow(() -&gt; new EntityNotFoundException(Review.class, id));</span>
         
-<span class="fc bfc" id="L187" title="All 2 branches covered.">        if( !incoming.getStatus().matches(&quot;Approved|Awaiting Approval|Rejected&quot;) ) {</span>
-<span class="fc" id="L188">            throw new IllegalArgumentException(&quot;Status must be 'Awaiting Moderation', 'Approved', or 'Rejected'&quot;);</span>
+<span class="fc" id="L187">        ArrayList&lt;String&gt; validStatus = new ArrayList&lt;&gt;(Arrays.asList(&quot;Approved&quot;, &quot;Awaiting Moderation&quot;, &quot;Rejected&quot;));</span>
+
+<span class="fc bfc" id="L189" title="All 2 branches covered.">        if( !validStatus.contains(incoming.getStatus()) ) {</span>
+<span class="fc" id="L190">            throw new IllegalArgumentException(&quot;Status must be one of: &quot; + validStatus);</span>
         } 
 
-<span class="fc" id="L191">        review.setStatus(incoming.getStatus());</span>
-<span class="fc" id="L192">        review.setModComments(incoming.getModComments());</span>
-<span class="fc" id="L193">        review.setModId(getCurrentUser().getUser().getId());</span>
-<span class="fc" id="L194">        review.setLastEditedDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));</span>
+<span class="fc" id="L193">        review.setStatus(incoming.getStatus());</span>
+<span class="fc" id="L194">        review.setModComments(incoming.getModComments());</span>
+<span class="fc" id="L195">        review.setModId(getCurrentUser().getUser().getId());</span>
+<span class="fc" id="L196">        review.setLastEditedDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));</span>
 
-<span class="fc" id="L196">        reviewsRepository.save(review);</span>
+<span class="fc" id="L198">        reviewsRepository.save(review);</span>
 
-<span class="fc" id="L198">        return review;</span>
+<span class="fc" id="L200">        return review;</span>
     }
 
 }
