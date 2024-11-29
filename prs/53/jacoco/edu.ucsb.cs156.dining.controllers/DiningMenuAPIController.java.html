@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
   @Autowired UserRepository userRepository;
   @Autowired DiningMenuAPIService diningMenuAPIService;
 
-  @Operation(summary = &quot;Get list of meals served in given dining commons on given date&quot;)
-  @GetMapping(value = &quot;/getMeals&quot;, produces = &quot;application/json&quot;)
-  public ResponseEntity&lt;String&gt; getMeals (@RequestParam OffsetDateTime dateTime, @RequestParam String diningCommonsCode) throws Exception {
-<span class="fc" id="L29">    String body = diningMenuAPIService.getMeals(dateTime, diningCommonsCode);</span>
+  @Operation(summary = &quot;Get list of days with meal service&quot;)
+  @GetMapping(value = &quot;/getDays&quot;, produces = &quot;application/json&quot;)
+  public ResponseEntity&lt;String&gt; getDays() throws Exception {
+<span class="fc" id="L29">    String body = diningMenuAPIService.getDays();</span>
 <span class="fc" id="L30">    return ResponseEntity.ok().body(body);</span>
   }
 
@@ -37,10 +37,10 @@ import org.springframework.web.bind.annotation.RestController;
 <span class="fc" id="L37">    return ResponseEntity.ok().body(body);</span>
   }
 
-  @Operation(summary = &quot;Get list of days with meal service&quot;)
-  @GetMapping(value = &quot;/getDays&quot;, produces = &quot;application/json&quot;)
-  public ResponseEntity&lt;String&gt; getDays() throws Exception {
-<span class="fc" id="L43">    String body = diningMenuAPIService.getDays();</span>
+  @Operation(summary = &quot;Get list of meals served in given dining commons on given date&quot;)
+  @GetMapping(value = &quot;/getMeals&quot;, produces = &quot;application/json&quot;)
+  public ResponseEntity&lt;String&gt; getMeals (@RequestParam OffsetDateTime dateTime, @RequestParam String diningCommonsCode) throws Exception {
+<span class="fc" id="L43">    String body = diningMenuAPIService.getMeals(dateTime, diningCommonsCode);</span>
 <span class="fc" id="L44">    return ResponseEntity.ok().body(body);</span>
   }
 }
