@@ -76,110 +76,76 @@ public class DiningMenuAPIService {
   }
 
   public String getCommons(OffsetDateTime dateTime) {
-    try {
-<span class="fc" id="L80">      HttpHeaders headers = new HttpHeaders();</span>
-<span class="fc" id="L81">      headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));</span>
-<span class="fc" id="L82">      headers.setContentType(MediaType.APPLICATION_JSON);</span>
-<span class="fc" id="L83">      headers.set(&quot;ucsb-api-version&quot;, &quot;1.0&quot;);</span>
-<span class="fc" id="L84">      headers.set(&quot;ucsb-api-key&quot;, this.apiKey);</span>
+<span class="fc" id="L79">    HttpHeaders headers = new HttpHeaders();</span>
+<span class="fc" id="L80">    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));</span>
+<span class="fc" id="L81">    headers.setContentType(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L82">    headers.set(&quot;ucsb-api-version&quot;, &quot;1.0&quot;);</span>
+<span class="fc" id="L83">    headers.set(&quot;ucsb-api-key&quot;, this.apiKey);</span>
 
-<span class="fc" id="L86">      HttpEntity&lt;String&gt; entity = new HttpEntity&lt;&gt;(&quot;body&quot;, headers);</span>
+<span class="fc" id="L85">    HttpEntity&lt;String&gt; entity = new HttpEntity&lt;&gt;(&quot;body&quot;, headers);</span>
 
-<span class="fc" id="L88">      DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;</span>
-<span class="fc" id="L89">      String formattedDateTime = dateTime.format(formatter);</span>
+<span class="fc" id="L87">    DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;</span>
+<span class="fc" id="L88">    String formattedDateTime = dateTime.format(formatter);</span>
 
-<span class="fc" id="L91">      String url = GET_COMMONS</span>
-<span class="fc" id="L92">                  .replace(&quot;{date-time}&quot;, formattedDateTime);</span>
+<span class="fc" id="L90">    String url = GET_COMMONS</span>
+<span class="fc" id="L91">                .replace(&quot;{date-time}&quot;, formattedDateTime);</span>
 
-<span class="fc" id="L94">      log.info(&quot;url=&quot; + url);</span>
+<span class="fc" id="L93">    log.info(&quot;url=&quot; + url);</span>
 
-<span class="fc" id="L96">      String retVal = &quot;&quot;;</span>
-<span class="fc" id="L97">      MediaType contentType = null;</span>
-<span class="fc" id="L98">      HttpStatus statusCode = null;</span>
+<span class="fc" id="L95">    String retVal = &quot;&quot;;</span>
+<span class="fc" id="L96">    MediaType contentType = null;</span>
+<span class="fc" id="L97">    HttpStatus statusCode = null;</span>
 
-<span class="fc" id="L100">      ResponseEntity&lt;String&gt; re =</span>
-<span class="fc" id="L101">          restTemplate.exchange(url, HttpMethod.GET, entity, String.class);</span>
-<span class="fc" id="L102">      contentType = re.getHeaders().getContentType();</span>
-<span class="fc" id="L103">      statusCode = (HttpStatus) re.getStatusCode();</span>
-<span class="fc" id="L104">      retVal = re.getBody();</span>
+<span class="fc" id="L99">    ResponseEntity&lt;String&gt; re =</span>
+<span class="fc" id="L100">        restTemplate.exchange(url, HttpMethod.GET, entity, String.class);</span>
+<span class="fc" id="L101">    contentType = re.getHeaders().getContentType();</span>
+<span class="fc" id="L102">    statusCode = (HttpStatus) re.getStatusCode();</span>
+<span class="fc" id="L103">    retVal = re.getBody();</span>
 
-<span class="pc bpc" id="L106" title="2 of 4 branches missed.">      if (retVal == null || retVal.equals(&quot;null&quot;))</span>
-      {
-<span class="nc" id="L108">        retVal = &quot;{\&quot;error\&quot;: \&quot;Commons doesn't serve meals on given day.\&quot;}&quot;;</span>
-      }
-
-<span class="fc" id="L111">      log.info(&quot;json: {} contentType: {} statusCode: {}&quot;, retVal, contentType, statusCode);</span>
-<span class="fc" id="L112">      return retVal;</span>
-<span class="nc" id="L113">    } catch (IllegalArgumentException ex) {</span>
-<span class="nc" id="L114">        log.error(&quot;Validation Error: {}&quot;, ex.getMessage());</span>
-<span class="nc" id="L115">        throw new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Invalid date-time format&quot;);</span>
-<span class="nc" id="L116">    } catch (HttpClientErrorException ex) {</span>
-<span class="nc" id="L117">        log.error(&quot;API Client Error: {}&quot;, ex.getMessage());</span>
-<span class="nc bnc" id="L118" title="All 2 branches missed.">        if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {</span>
-<span class="nc" id="L119">            throw new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Commons data not found&quot;);</span>
-        }
-<span class="nc" id="L121">        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Invalid request to Commons API&quot;);</span>
-<span class="nc" id="L122">    } catch (HttpServerErrorException ex) {</span>
-<span class="nc" id="L123">        log.error(&quot;API Server Error: {}&quot;, ex.getMessage());</span>
-<span class="nc" id="L124">        throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, &quot;Commons API is currently unavailable&quot;);</span>
-<span class="nc" id="L125">    } catch (Exception ex) {</span>
-<span class="nc" id="L126">        log.error(&quot;Unexpected Error: {}&quot;, ex.getMessage(), ex);</span>
-<span class="nc" id="L127">        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, &quot;An unexpected error occurred&quot;);</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">    if (retVal.equals(&quot;null&quot;))</span>
+    {
+<span class="fc" id="L107">      retVal = &quot;{\&quot;error\&quot;: \&quot;Commons doesn't serve meals on given day.\&quot;}&quot;;</span>
     }
-  }
+
+<span class="fc" id="L110">    log.info(&quot;json: {} contentType: {} statusCode: {}&quot;, retVal, contentType, statusCode);</span>
+<span class="fc" id="L111">    return retVal;</span>
+  } 
 
   public String getMeals(OffsetDateTime dateTime, String diningCommonCode) {
-    try {
-<span class="fc" id="L133">      HttpHeaders headers = new HttpHeaders();</span>
-<span class="fc" id="L134">      headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));</span>
-<span class="fc" id="L135">      headers.setContentType(MediaType.APPLICATION_JSON);</span>
-<span class="fc" id="L136">      headers.set(&quot;ucsb-api-version&quot;, &quot;1.0&quot;);</span>
-<span class="fc" id="L137">      headers.set(&quot;ucsb-api-key&quot;, this.apiKey);</span>
+<span class="fc" id="L115">    HttpHeaders headers = new HttpHeaders();</span>
+<span class="fc" id="L116">    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));</span>
+<span class="fc" id="L117">    headers.setContentType(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L118">    headers.set(&quot;ucsb-api-version&quot;, &quot;1.0&quot;);</span>
+<span class="fc" id="L119">    headers.set(&quot;ucsb-api-key&quot;, this.apiKey);</span>
 
-<span class="fc" id="L139">      HttpEntity&lt;String&gt; entity = new HttpEntity&lt;&gt;(&quot;body&quot;, headers);</span>
+<span class="fc" id="L121">    HttpEntity&lt;String&gt; entity = new HttpEntity&lt;&gt;(&quot;body&quot;, headers);</span>
 
-<span class="fc" id="L141">      DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;</span>
-<span class="fc" id="L142">      String formattedDateTime = dateTime.format(formatter);</span>
+<span class="fc" id="L123">    DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;</span>
+<span class="fc" id="L124">    String formattedDateTime = dateTime.format(formatter);</span>
 
-<span class="fc" id="L144">      String url = GET_MEALS</span>
-<span class="fc" id="L145">                  .replace(&quot;{date-time}&quot;, formattedDateTime)</span>
-<span class="fc" id="L146">                  .replace(&quot;{dining-common-code}&quot;, diningCommonCode);</span>
+<span class="fc" id="L126">    String url = GET_MEALS</span>
+<span class="fc" id="L127">                .replace(&quot;{date-time}&quot;, formattedDateTime)</span>
+<span class="fc" id="L128">                .replace(&quot;{dining-common-code}&quot;, diningCommonCode);</span>
 
-<span class="fc" id="L148">      log.info(&quot;url=&quot; + url);</span>
+<span class="fc" id="L130">    log.info(&quot;url=&quot; + url);</span>
 
-<span class="fc" id="L150">      String retVal = &quot;&quot;;</span>
-<span class="fc" id="L151">      MediaType contentType = null;</span>
-<span class="fc" id="L152">      HttpStatus statusCode = null;</span>
+<span class="fc" id="L132">    String retVal = &quot;&quot;;</span>
+<span class="fc" id="L133">    MediaType contentType = null;</span>
+<span class="fc" id="L134">    HttpStatus statusCode = null;</span>
 
-<span class="fc" id="L154">      ResponseEntity&lt;String&gt; re =</span>
-<span class="fc" id="L155">          restTemplate.exchange(url, HttpMethod.GET, entity, String.class);</span>
-<span class="fc" id="L156">      contentType = re.getHeaders().getContentType();</span>
-<span class="fc" id="L157">      statusCode = (HttpStatus) re.getStatusCode();</span>
-<span class="fc" id="L158">      retVal = re.getBody();</span>
+<span class="fc" id="L136">    ResponseEntity&lt;String&gt; re =</span>
+<span class="fc" id="L137">        restTemplate.exchange(url, HttpMethod.GET, entity, String.class);</span>
+<span class="fc" id="L138">    contentType = re.getHeaders().getContentType();</span>
+<span class="fc" id="L139">    statusCode = (HttpStatus) re.getStatusCode();</span>
+<span class="fc" id="L140">    retVal = re.getBody();</span>
 
-<span class="pc bpc" id="L160" title="2 of 4 branches missed.">      if (retVal == null || retVal.equals(&quot;null&quot;))</span>
-        {
-<span class="nc" id="L162">          retVal = &quot;{\&quot;error\&quot;: \&quot;Commons doesn't serve meals on given day.\&quot;}&quot;;</span>
-        }
-
-<span class="fc" id="L165">        log.info(&quot;json: {} contentType: {} statusCode: {}&quot;, retVal, contentType, statusCode);</span>
-<span class="fc" id="L166">        return retVal;</span>
-<span class="nc" id="L167">    } catch (IllegalArgumentException ex) {</span>
-<span class="nc" id="L168">        log.error(&quot;Validation Error: {}&quot;, ex.getMessage());</span>
-<span class="nc" id="L169">        throw new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Invalid date-time format&quot;);</span>
-<span class="nc" id="L170">    } catch (HttpClientErrorException ex) {</span>
-<span class="nc" id="L171">        log.error(&quot;API Client Error: {}&quot;, ex.getMessage());</span>
-<span class="nc bnc" id="L172" title="All 2 branches missed.">        if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {</span>
-<span class="nc" id="L173">            throw new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Commons data not found&quot;);</span>
-        }
-<span class="nc" id="L175">        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Invalid request to Commons API&quot;);</span>
-<span class="nc" id="L176">    } catch (HttpServerErrorException ex) {</span>
-<span class="nc" id="L177">        log.error(&quot;API Server Error: {}&quot;, ex.getMessage());</span>
-<span class="nc" id="L178">        throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, &quot;Commons API is currently unavailable&quot;);</span>
-<span class="nc" id="L179">    } catch (Exception ex) {</span>
-<span class="nc" id="L180">        log.error(&quot;Unexpected Error: {}&quot;, ex.getMessage(), ex);</span>
-<span class="nc" id="L181">        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, &quot;An unexpected error occurred&quot;);</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">    if (retVal.equals(&quot;null&quot;))</span>
+    {
+<span class="fc" id="L144">      retVal = &quot;{\&quot;error\&quot;: \&quot;Meals are not served at given commons on given day.\&quot;}&quot;;</span>
     }
-  }
+
+<span class="fc" id="L147">      log.info(&quot;json: {} contentType: {} statusCode: {}&quot;, retVal, contentType, statusCode);</span>
+<span class="fc" id="L148">      return retVal;</span>
+  } 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
